@@ -1,0 +1,56 @@
+UR\DB\NewBundle\Entity\IsGrandparent:
+    type: entity
+    table: is_grandparent
+    repositoryClass: UR\DB\NewBundle\Entity\IsGrandparentRepository
+    options:
+        collate: utf8_general_ci
+        charset: utf8
+    uniqueConstraints:
+        grand_parentID:
+            columns:
+                - grandparentID
+                - grandchildID
+    indexes:
+        grandParent_idx:
+            columns: [ grandparentID ]
+        grandChild_idx:
+            columns: [ grandchildID ]
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            column: ID
+            generator:
+                strategy: IDENTITY
+    fields:
+        grandParentID:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+                default: '0'
+            column: grandparentID
+        grandChildID:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+                default: '0'
+            column: grandchildID
+        isPaternal:
+            type: boolean
+            nullable: false
+            options:
+                comment: 'mütterlicherseits und väterlicherseits!'
+            column: is_paternal
+        comment:
+            type: text
+            nullable: true
+            length: 65535
+            options:
+                fixed: false
+            column: is_grandparent_comment
+    lifecycleCallbacks: {  }

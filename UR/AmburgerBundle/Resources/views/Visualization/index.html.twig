@@ -1,0 +1,341 @@
+{% extends "AmburgerBundle:Visualization:base.html.twig" %}
+
+{% block body %}
+    <div class="search">
+        <div class="row">
+            <div class="large-12 columns">
+                <div class="search-container">
+                    <div class="row">
+                        <div class="large-12 columns large-centered center">
+                            <h2>Suche</h2>
+                        </div>
+                    </div>
+                    <div class="row simple-search">
+                        <div class="large-12 columns">
+                            <div class="large-8 columns">
+                                <label>Freie Suche</label><input name="searchQuery"/>
+                            </div>
+                            <div class="large-1 columns">
+                            </div>
+                            <div class="large-2 columns container-only-main-persons">
+                                <label>
+                                    Nur Hauptpersonen
+                                    <br/>
+                                    <div class="checkbox-container">
+                                        <input class="center" type="checkbox" name="only-main-persons"/>
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="large-1 columns">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row extended-search box">
+                        <div class="large-12 columns">
+                            <div class="large-4 columns">
+                                <label>
+                                    Nachname
+                                    <input name="lastname"/>
+                                </label>
+                            </div>
+                            <div class="large-4 columns">
+                                <label>
+                                    Russischer Vorname
+                                    <input name="patronym"/>
+                                </label>
+                            </div>
+                            <div class="large-4 columns">
+                                <label>
+                                    Vorname
+                                    <input name="firstname"/>
+                                </label>
+                            </div>
+                            <div class="large-4 columns">
+                                <label>
+                                    Ort
+                                    <input name="location"/>
+                                </label>
+                            </div>
+                            <div class="large-4 columns">
+                                <label>
+                                    Region
+                                    <input name="territory"/>
+                                </label>
+                            </div>
+                            <div class="large-4 columns">
+                                <label>
+                                    Land
+                                    <input name="country"/>
+                                </label>
+                            </div>
+
+                            <!--TODO: Enforce date with specific format -->
+                            <div class="large-4 columns">
+                                <label>
+                                    Datum
+                                    <br/>
+                                    <select name="date-day" class="single-date">
+                                        <option value="">Tag</item>
+                                        {% for i in 1..31 %}
+                                            <option value="{{ i }}">{{ i }}</item>
+                                        {% endfor %}
+                                    </select>
+                                    <select name="date-month"  class="single-date">>
+                                        <option value="">Monat</item>
+                                        {% for i in 1..12 %}
+                                            <option value="{{ i }}">{{ i }}</item>
+                                        {% endfor %}
+                                    </select>
+                                    <input class="single-date" name="date-year" placeholder="Jahr" pattern="[0-9]{4}"/>
+                                </label>
+                            </div>
+                             <div class="large-4 columns">
+                                <label>
+                                    Zeitraum
+                                    <br/>
+                                    <select name="from-date-day" class="daterange">
+                                        <option value="">Tag</item>
+                                        {% for i in 1..31 %}
+                                            <option value="{{ i }}">{{ i }}</item>
+                                        {% endfor %}
+                                    </select>
+                                    <select name="from-date-month" placeholder="Jahr" class="daterange">
+                                        <option value="">Monat</item>
+                                        {% for i in 1..12 %}
+                                            <option value="{{ i }}">{{ i }}</item>
+                                        {% endfor %}
+                                    </select>
+                                    <input class="daterange" name="from-date-year" placeholder="Jahr" pattern="[0-9]{4}"/>
+                                </label>
+                             </div>
+                            <div class="large-4 columns">
+                                <label>
+                                    bis
+                                    <br/>
+                                    <select name="to-date-day" class="daterange">
+                                        <option value="">Tag</item>
+                                        {% for i in 1..31 %}
+                                            <option value="{{ i }}">{{ i }}</item>
+                                        {% endfor %}
+                                    </select>
+                                    <select name="to-date-month" class="daterange">
+                                        <option value="">Monat</item>
+                                        {% for i in 1..12 %}
+                                            <option value="{{ i }}">{{ i }}</item>
+                                        {% endfor %}
+                                    </select>
+                                    <input class="daterange" name="to-date-year" placeholder="Jahr" pattern="[0-9]{4}"/>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="large-4 columns">
+                        </div>
+                        <div class="large-4 columns centered">
+                            <button id="search-btn" class="button radius expand">Suchen</button>
+                        </div>
+                        <div class="large-4 columns">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row map">
+        <div class="large-12 columns large-centered center">
+            <div id="map-display"></div>
+        </div>
+    </div>
+
+    <div class="row list">
+        <div class="large-12 columns large-centered center">
+            <h2>Ergebnisliste</h2>
+            <div class="table-header row">
+                <div class="large-6 columns">
+                    <div class="pagination-container"></div>
+                </div>
+                <div class="large-5 columns">
+                </div>
+                <div class="large-1 columns page-size-container">
+                    <!--
+                    <span>
+                        Erebnisse pro Seite: 
+                    </span>
+                    -->
+                    <select class="page-size">
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="large-12 columns">
+                    <table>
+                        <thead>
+                            <tr>
+                                <td>
+                                    Vorname
+                                </td>
+                                <td>
+                                    Russischer Vorname
+                                </td>
+                                <td>
+                                    Nachname
+                                </td>
+                                <td>
+                                    Geburtsdatum/ Taufdatum
+                                </td>
+                                <td>
+                                    Sterbedatum/ Beerdigungsdatum
+                                </td>
+                                <td>
+                                    Hauptperson
+                                </td>
+                                <td>
+                                    Vollständige Personendaten einsehen
+                                </td>
+                            </tr>
+                        </thead>
+                        <tbody id="personDataList">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="table-footer row">
+                <div class="large-6 columns">
+                    <div class="pagination-container"></div>
+                </div>
+                <div class="large-5 columns">
+                </div>
+                <div class="large-1 columns page-size-container">
+                    <!--
+                    <span>
+                        Erebnisse pro Seite: 
+                    </span>
+                    -->
+                    <select class="page-size">
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+    {# Start #}
+    <script src="{{asset('bundles/amburger/js/src/visualization/index/Index.js')}}"></script>
+
+    {# Models #}
+    <script src="{{asset('bundles/amburger/js/src/visualization/index/PersonListModel.js')}}"></script>
+
+    {# Views #}
+    <script src="{{asset('bundles/amburger/js/src/visualization/index/MapView.js')}}"></script>
+    <script src="{{asset('bundles/amburger/js/src/visualization/index/PersonListView.js')}}"></script>
+    <script src="{{asset('bundles/amburger/js/src/visualization/index/SearchView.js')}}"></script>
+    {# Manager #}
+
+
+    {# Controllers #}
+    <script src="{{ asset('bundles/amburger/js/src/visualization/index/AjaxLoader.js') }}"></script>
+    <script src="{{asset('bundles/amburger/js/src/visualization/index/IndexController.js')}}"></script>
+
+
+
+    {# As last init the Start #}
+    <script>
+        $(document).ready(function () {
+            Index.init('{{ google_api_key }}');
+        });
+    </script>
+    
+
+    
+{% endblock %}
+
+{% block templates %}
+    {% verbatim %}
+
+    <script type="text/template" id="personDataTemplate">
+        <tr>
+            <td>
+                <%= first_name %>
+            </td>
+            <td>
+                <%= patronym %>
+            </td>
+            <td>
+                <%= last_name %>
+            </td>
+            <td>
+                <% if(birth_date) { %>
+                    Geboren: <%= birth_date %>
+                 <% } else if(baptism_date) { %>
+                    Getauft: <%= baptism_date %>
+                 <% } %>
+            </td>
+            <td>
+                <% if(death_date) { %>
+                    Gestorben: <%= death_date %>
+                 <% } else if(funeral_date) { %>
+                    Beerdigt: <%= funeral_date %>
+                 <% } %>
+            </td>
+            <td class="center">
+                 <% if(type == 'person') { %>
+                     <i class="fa fa-check fa-green" aria-hidden="true"></i>
+                 <% } else { %>
+                    <i class="fa fa-times fa-red" aria-hidden="true"></i>
+                 <% } %>
+            </td>
+            <td>
+                <a href="/visualization/<%= id %>/" target="_blank"><button>Details</button></a>
+            </td>
+        </tr>
+    </script>
+    
+    <script type="text/template" id="paginationTemplate">
+            <ul class="pagination">
+              <li class="arrow <%= 1 == currentPage ? 'unavailable' : '' %> previous"><a>&laquo;</a></li>
+               <% if(pageCount <= 8){ 
+                   for(var i = 1; i <= pageCount; i++){ %>
+                       <li class="page-marker <%= i == currentPage ? 'current' : '' %>" page="<%= i %>"><a><%= i %></a></li>
+                <%   }
+                } else if(currentPage <= 3 || currentPage >= pageCount-2) { %>
+                    <li class="page-marker <%= 1 == currentPage ? 'current' : '' %>" page="1"><a>1</a></li>
+                    <li class="page-marker <%= 2 == currentPage ? 'current' : '' %>" page="2"><a>2</a></li>
+                    <li class="page-marker <%= 3 == currentPage ? 'current' : '' %>" page="3"><a>3</a></li>
+                    <li class="unavailable"><a href="">&hellip;</a></li>
+                <%    for(var i = pageCount-2; i <= pageCount; i++){ %>
+                       <li class="page-marker <%= i == currentPage ? 'current' : '' %>" page="<%= i %>"><a><%= i %></a></li>
+                <%   } 
+                  } else { %>
+                        <li class="page-marker" page="1"><a>1</a></li>
+                        <li class="page-marker" page="2"><a>2</a></li>
+                        <li class="page-marker" page="3"><a>3</a></li>       
+                        <li class="unavailable"><a href="">&hellip;</a></li>
+                        <%    for(var i = currentPage-1; i <= (currentPage+1); i++){ %>
+                               <li class="page-marker <%= i == currentPage ? 'current' : '' %>" page="<%= i %>"><a><%= i %></a></li>
+                        <%   } %>
+                        <li class="unavailable"><a href="">&hellip;</a></li>
+                         <%    for(var i = pageCount-2; i <= pageCount; i++){ %>
+                               <li class="page-marker" page="<%= i %>"><a><%= i %></a></li>
+                        <%   } %>
+                <%  } %>
+              <li class="arrow <%= pageCount == currentPage ? 'unavailable' : '' %> next"><a>&raquo;</a></li>
+            </ul>
+     </script>
+    {% endverbatim %}
+{% endblock %}

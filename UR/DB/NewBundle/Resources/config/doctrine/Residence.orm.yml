@@ -1,0 +1,71 @@
+UR\DB\NewBundle\Entity\Residence:
+    type: entity
+    table: residence
+    options:
+        collate: utf8_general_ci
+        charset: utf8
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            column: ID
+            generator:
+                strategy: IDENTITY
+    fields:
+        residenceLocationid:
+            type: integer
+            nullable: true
+            options:
+                unsigned: false
+            column: residence_locationID
+        residenceTerritoryid:
+            type: integer
+            nullable: true
+            options:
+                unsigned: false
+            column: residence_territoryID
+        residenceOrder:
+            type: integer
+            nullable: false
+            options:
+                default: '1'
+            column: residence_order
+        residenceCountryid:
+            type: integer
+            nullable: true
+            options:
+                unsigned: false
+            column: residence_countryID
+    manyToOne:
+        person:
+            targetEntity: BasePerson
+            cascade: ["persist", "merge"]
+        residenceCountry:
+            targetEntity: Country
+            fetch: EAGER
+            joinColumn:
+                name: residence_countryID
+                referencedColumnName: ID
+                nullable: true        
+            cascade: ["persist"]
+        residenceTerritory:
+            targetEntity: Territory
+            fetch: EAGER
+            joinColumn:
+                name: residence_territoryID
+                referencedColumnName: ID
+                nullable: true
+            cascade: ["persist"]
+        residenceLocation:
+            targetEntity: Location
+            fetch: EAGER
+            joinColumn:
+                name: residence_locationID
+                referencedColumnName: ID
+                nullable: true            
+            cascade: ["persist"]
+            
+    lifecycleCallbacks: {  }

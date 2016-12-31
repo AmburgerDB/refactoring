@@ -1,0 +1,42 @@
+UR\DB\NewBundle\Entity\Baptism:
+    type: entity
+    table: baptism
+    options:
+        collate: utf8_general_ci
+        charset: utf8
+    indexes:
+        baptism_date_idx:
+            columns: [ baptism_dateID ]
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            column: ID
+            generator:
+                strategy: IDENTITY
+    fields:
+        baptismDate:
+            type: date_reference
+            column: baptism_dateID
+            nullable: true
+        baptismLocationid:
+            type: integer
+            nullable: true
+            options:
+                unsigned: false
+            column: baptism_locationID
+    manyToOne:
+        baptismLocation:
+            targetEntity: Location
+            fetch: EAGER
+            joinColumn:
+                name: baptism_locationID
+                referencedColumnName: ID
+                nullable: true
+            cascade: ["persist"]
+                
+    lifecycleCallbacks:
+      

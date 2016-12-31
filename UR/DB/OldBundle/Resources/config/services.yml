@@ -1,0 +1,5 @@
+services:
+    old_db_loader.service:
+        class: UR\DB\OldBundle\Util\OldPersonLoader
+        arguments: 
+           container: "@service_container"

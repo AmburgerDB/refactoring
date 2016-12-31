@@ -1,0 +1,50 @@
+UR\DB\NewBundle\Entity\IsSibling:
+    type: entity
+    table: is_sibling
+    repositoryClass: UR\DB\NewBundle\Entity\IsSiblingRepository
+    options:
+        collate: utf8_general_ci
+        charset: utf8
+    uniqueConstraints:
+        sibling_oneID:
+            columns:
+                - sibling_oneID
+                - sibling_twoID
+    indexes:
+        siblingOne_idx:
+            columns: [ sibling_oneID ]
+        siblingTwo_idx:
+            columns: [ sibling_twoID ]
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            column: ID
+            generator:
+                strategy: IDENTITY
+    fields:
+        siblingOneid:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+                default: '0'
+            column: sibling_oneID
+        siblingTwoid:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+                default: '0'
+            column: sibling_twoID
+        comment:
+            type: text
+            nullable: true
+            length: 65535
+            options:
+                fixed: false
+            column: is_sibling_comment
+    lifecycleCallbacks: {  }

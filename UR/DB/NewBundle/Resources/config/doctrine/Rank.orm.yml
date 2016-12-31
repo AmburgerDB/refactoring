@@ -1,0 +1,108 @@
+UR\DB\NewBundle\Entity\Rank:
+    type: entity
+    table: rank
+    options:
+        collate: utf8_general_ci
+        charset: utf8
+    indexes:
+        rank_from_date_idx:
+            columns: [ from_dateID ]
+        rank_to_date_idx:
+            columns: [ to_dateID ]
+        rank_proven_date_idx:
+            columns: [ proven_dateID ]
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            column: ID
+            generator:
+                strategy: IDENTITY
+    fields:
+        rankOrder:
+            type: integer
+            nullable: false
+            options:
+                default: '1'
+            column: rank_order
+        label:
+            type: string
+            nullable: true
+            length: 200
+            options:
+                fixed: false
+        class:
+            type: string
+            nullable: true
+            length: 200
+            options:
+                fixed: false
+        countryid:
+            type: integer
+            nullable: true
+            options:
+                unsigned: false
+            column: countryID
+        territoryid:
+            type: integer
+            nullable: true
+            options:
+                unsigned: false
+            column: territoryID
+        locationid:
+            type: integer
+            nullable: true
+            options:
+                unsigned: false
+            column: locationID
+        fromDate:
+            type: date_reference
+            column: from_dateID
+            nullable: true
+        toDate:
+            type: date_reference
+            column: to_dateID
+            nullable: true
+        provenDate:
+            type: date_reference
+            column: proven_dateID
+            nullable: true
+        comment:
+            type: text
+            nullable: true
+            length: 65535
+            options:
+                fixed: false
+            column: rank_comment
+    manyToOne:
+        person:
+            targetEntity: BasePerson
+            cascade: ["persist", "merge"]
+        country:
+            targetEntity: Country
+            fetch: EAGER
+            joinColumn:
+                name: countryID
+                referencedColumnName: ID
+                nullable: true        
+            cascade: ["persist"]
+        territory:
+            targetEntity: Territory
+            fetch: EAGER
+            joinColumn:
+                name: territoryID
+                referencedColumnName: ID
+                nullable: true
+            cascade: ["persist"]
+        location:
+            targetEntity: Location
+            fetch: EAGER
+            joinColumn:
+                name: locationID
+                referencedColumnName: ID
+                nullable: true      
+            cascade: ["persist"]
+    lifecycleCallbacks: {  }

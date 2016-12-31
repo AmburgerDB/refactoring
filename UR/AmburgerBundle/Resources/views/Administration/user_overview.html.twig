@@ -1,0 +1,53 @@
+{% extends "AmburgerBundle:Administration:base.html.twig" %}
+{% block header %}
+    <h1>Adminbereich der Erik-Amburger-Datenbank</h1>
+{% endblock %}
+{% block body %}
+    <div class="row">
+        <button class="create">Neuen Nutzer anlegen</button>
+    </div>
+    
+    <div class="row"
+         <div class="columns large-12">
+            <table>
+                <thead>
+                    <tr>
+                        <td>Nutzername</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                        <tr userid="{{ user.id|e }}">
+                            <td>{{ user.name|e }}</td>
+                            <td><button class="change-password">Passwort ändern</button></td>
+                            {% if user.admin == 1 %}
+                                <td><button class="revoke">Adminrolle entfernen</button></td> 
+                            {% else %}
+                                 <td><button class="nominate">Adminrolle vergeben</button></td> 
+                            {% endif %}
+                            <td><button class="delete">Nutzer löschen</button></td>
+                        </tr>
+
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{asset('bundles/amburger/js/src/admin/AdminOverview.js')}}"></script>
+
+
+    {# As last init the Start #}
+    <script>
+        AdminOverview.init();
+    </script>
+
+{% endblock %}

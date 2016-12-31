@@ -1,0 +1,123 @@
+UR\DB\NewBundle\Entity\Birth:
+    type: entity
+    table: birth
+    options:
+        collate: utf8_general_ci
+        charset: utf8
+    indexes:
+        birth_date_idx:
+            columns: [ birth_dateID ]
+        birth_proven_date_idx:
+            columns: [ proven_dateID ]
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            column: ID
+            generator:
+                strategy: IDENTITY
+    fields:
+        originCountryid:
+            type: integer
+            nullable: true
+            options:
+                unsigned: false
+            column: origin_countryID
+        originTerritoryid:
+            type: integer
+            nullable: true
+            options:
+                unsigned: false
+            column: origin_territoryID
+        originLocationid:
+            type: integer
+            nullable: true
+            options:
+                unsigned: false
+            column: origin_locationID
+        birthCountryid:
+            type: integer
+            nullable: true
+            options:
+                unsigned: false
+            column: birth_countryID
+        birthLocationid:
+            type: integer
+            nullable: true
+            options:
+                unsigned: false
+            column: birth_locationID
+        birthDate:
+            type: date_reference
+            column: birth_dateID
+            nullable: true
+        provenDate:
+            type: date_reference
+            column: proven_dateID
+            nullable: true
+        birthTerritoryid:
+            type: integer
+            nullable: true
+            options:
+                unsigned: false
+            column: birth_territoryID
+        comment:
+            type: text
+            nullable: true
+            length: 65535
+            options:
+                fixed: false
+            column: birth_comment
+    manyToOne:
+        originCountry:
+            targetEntity: Country
+            fetch: EAGER
+            joinColumn:
+                name: origin_countryID
+                referencedColumnName: ID
+                nullable: true
+            cascade: ["persist"]
+        originTerritory:
+            targetEntity: Territory
+            fetch: EAGER
+            joinColumn:
+                name: origin_territoryID
+                referencedColumnName: ID
+                nullable: true
+            cascade: ["persist"]
+        originLocation:
+            targetEntity: Location
+            fetch: EAGER
+            joinColumn:
+                name: origin_locationID
+                referencedColumnName: ID
+                nullable: true
+            cascade: ["persist"]
+        birthCountry:
+            targetEntity: Country
+            fetch: EAGER
+            joinColumn:
+                name: birth_countryID
+                referencedColumnName: ID
+                nullable: true
+            cascade: ["persist"]
+        birthTerritory:
+            targetEntity: Territory
+            fetch: EAGER
+            joinColumn:
+                name: birth_territoryID
+                referencedColumnName: ID
+                nullable: true
+            cascade: ["persist"]
+        birthLocation:
+            targetEntity: Location
+            fetch: EAGER
+            joinColumn:
+                name: birth_locationID
+                referencedColumnName: ID
+                nullable: true
+            cascade: ["persist"]
+    lifecycleCallbacks: {  }

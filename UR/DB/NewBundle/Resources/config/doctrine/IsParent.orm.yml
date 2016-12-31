@@ -1,0 +1,50 @@
+UR\DB\NewBundle\Entity\IsParent:
+    type: entity
+    table: is_parent
+    repositoryClass: UR\DB\NewBundle\Entity\IsParentRepository
+    options:
+        collate: utf8_general_ci
+        charset: utf8
+    uniqueConstraints:
+        childID:
+            columns:
+                - childID
+                - parentID
+    indexes:
+        child_idx:
+            columns: [ childID ]
+        partner_idx:
+            columns: [ parentID ]
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            column: ID
+            generator:
+                strategy: IDENTITY
+    fields:
+        childID:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+                default: '0'
+            column: childID
+        parentID:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+                default: '0'
+            column: parentID
+        comment:
+            type: text
+            nullable: true
+            length: 65535
+            options:
+                fixed: false
+            column: is_parent_comment
+    lifecycleCallbacks: {  }

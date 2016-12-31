@@ -1,0 +1,140 @@
+UR\DB\NewBundle\Entity\BasePerson:
+    type: mappedSuperclass
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            column: id
+            generator:
+                   strategy: CUSTOM
+            customIdGenerator:
+                class: 'UR\DB\NewBundle\Utils\SequenceIDGenerator'
+    fields:
+        firstName:
+            type: string
+            nullable: true
+            length: 200
+            options:
+                fixed: false
+                default: null
+            column: first_name
+        patronym:
+            type: string
+            nullable: true
+            length: 200
+            options:
+                fixed: false
+                default: null
+        lastName:
+            type: string
+            nullable: true
+            length: 200
+            options:
+                fixed: false
+                default: null
+            column: last_name
+        foreName:
+            type: string
+            nullable: true
+            length: 200
+            options:
+                fixed: false
+                default: null
+            column: fore_name
+        birthName:
+            type: string
+            nullable: true
+            length: 200
+            options:
+                fixed: false
+                default: null
+            column: birth_name
+        gender:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+                comment: '0 = undefined, 1 = male, 2 = female'
+                default: '0'
+        genderComment:
+            type: string
+            nullable: true
+            length: 200
+            options:
+                fixed: false
+                default: null
+            column: gender_comment
+        comment:
+            type: text
+            nullable: true
+            length: 65535
+            options:
+                fixed: false
+                default: null
+            column: person_comment
+        bornInMarriage:
+            type: text
+            nullable: true
+            length: 65535
+            options:
+                fixed: false
+                default: null
+            column: born_in_marriage
+    oneToOne:
+        birth:
+          targetEntity: Birth
+          joinColumn:
+            name: birth_id
+            referencedColumnName: ID
+            nullable: true
+            onDelete: CASCADE
+          fetch: EAGER
+          cascade: ["persist", "merge","remove"]
+        baptism:
+          targetEntity: Baptism
+          joinColumn:
+            name: baptism_id
+            referencedColumnName: ID
+            nullable: true
+            onDelete: CASCADE
+          fetch: EAGER
+          cascade: ["persist","remove"]
+        death:
+          targetEntity: Death
+          joinColumn:
+            name: death_id
+            referencedColumnName: ID
+            nullable: true
+            onDelete: CASCADE
+          fetch: EAGER
+          cascade: ["persist","merge","remove"]
+    manyToOne:
+        job:
+            targetEntity: Job
+            fetch: EAGER
+            joinColumn:
+                name: jobID
+                referencedColumnName: ID
+                nullable: true
+            cascade: ["persist"]
+        jobClass:
+            targetEntity: JobClass
+            fetch: EAGER
+            joinColumn:
+                name: job_classID
+                referencedColumnName: ID
+                nullable: true
+            cascade: ["persist"]
+        nation:
+            targetEntity: Nation
+            fetch: EAGER
+            joinColumn:
+                name: nationID
+                referencedColumnName: ID
+                nullable: true          
+            cascade: ["persist"]
+    
+    lifecycleCallbacks: {  }

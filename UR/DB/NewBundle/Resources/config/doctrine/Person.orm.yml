@@ -1,0 +1,110 @@
+UR\DB\NewBundle\Entity\Person:
+    type: entity
+    table: person
+    repositoryClass: UR\DB\NewBundle\Entity\PersonRepository
+    options:
+        collate: utf8_general_ci
+        charset: utf8
+    inheritance:
+        type: concrete
+        extends: Entities\BasePerson 
+    uniqueConstraints:
+        ID_OLD:
+            columns:
+                - OID
+    indexes:
+        # the name of the index
+        person_gender_idx:
+            # Columns is an array, specify multiple columns for 
+            # a compound index
+            columns: [ gender ]
+        person_firstName_idx:
+            columns: [ first_name ]
+        person_patronym_idx:
+            columns: [ patronym ]
+        person_lastName_idx:
+            columns: [ last_name ]
+        person_foreName_idx:
+            columns: [ fore_name ]
+        person_birthName_idx:
+            columns: [ birth_name ]
+    fields:
+        oid:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            column: OID
+        control:
+            type: text
+            nullable: true
+            length: 65535
+            options:
+                fixed: false
+        complete:
+            type: text
+            nullable: true
+            length: 65535
+            options:
+                fixed: false
+    oneToMany:
+        sources:
+          orderBy: { 'sourceOrder': 'ASC' }
+          targetEntity: Source
+          mappedBy: person
+          fetch: EAGER
+          cascade: ["persist","merge","remove"]
+        educations:
+          orderBy: { 'educationOrder': 'ASC' }
+          targetEntity: Education
+          mappedBy: person
+          fetch: EAGER
+          cascade: ["persist","merge","remove"]
+        honours:
+          orderBy: { 'honourOrder': 'ASC' }
+          targetEntity: Honour
+          mappedBy: person
+          fetch: EAGER
+          cascade: ["persist","merge","remove"]
+        properties:
+          orderBy: { 'propertyOrder': 'ASC' }
+          targetEntity: Property
+          mappedBy: person
+          fetch: EAGER
+          cascade: ["persist","merge","remove"]
+        ranks:
+          orderBy: { 'rankOrder': 'ASC' }
+          targetEntity: Rank
+          mappedBy: person
+          fetch: EAGER
+          cascade: ["persist","merge","remove"]
+        religions:
+          orderBy: { 'religionOrder': 'ASC' }
+          targetEntity: Religion
+          mappedBy: person
+          fetch: EAGER
+          cascade: ["persist","merge","remove"]
+        residences:
+          orderBy: { 'residenceOrder': 'ASC' }
+          targetEntity: Residence
+          mappedBy: person
+          fetch: EAGER
+          cascade: ["persist","merge","remove"]
+        roadOfLife:
+          orderBy: { 'roadOfLifeOrder': 'ASC' }
+          targetEntity: RoadOfLife
+          mappedBy: person
+          fetch: EAGER
+          cascade: ["persist","merge","remove"]
+        stati:
+          orderBy: { 'statusOrder': 'ASC' }
+          targetEntity: Status
+          mappedBy: person
+          fetch: EAGER
+          cascade: ["persist","merge","remove"]
+        works:
+          orderBy: { 'worksOrder': 'ASC' }
+          targetEntity: Works
+          mappedBy: person
+          fetch: EAGER
+          cascade: ["persist","merge","remove"]

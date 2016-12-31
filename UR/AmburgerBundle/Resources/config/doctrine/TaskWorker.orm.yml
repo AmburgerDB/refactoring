@@ -1,0 +1,21 @@
+UR\AmburgerBundle\Entity\TaskWorker:
+    type: entity
+    table: task_worker
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        running:
+            type: boolean
+            comment: 'Is the task worker currently running.'
+        lastrun:
+            type: datetime
+            nullable: true
+            comment: 'Timestamp when it last ran'
+    lifecycleCallbacks: {  }

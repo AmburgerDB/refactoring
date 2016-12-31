@@ -1,0 +1,136 @@
+UR\DB\NewBundle\Entity\Wedding:
+    type: entity
+    table: wedding
+    repositoryClass: UR\DB\NewBundle\Entity\WeddingRepository
+    options:
+        collate: utf8_general_ci
+        charset: utf8
+    uniqueConstraints:
+        wedding_order:
+            columns:
+                - wedding_order
+                - husband_ID
+                - wife_ID
+    indexes:
+        husband_idx:
+            columns: [ husband_ID ]
+        wife_idx:
+            columns: [ wife_ID ]
+        wedding_date_idx:
+            columns: [ wedding_dateID ]
+        banns_date_idx:
+            columns: [ banns_dateID ]
+        breakup_date_idx:
+            columns: [ breakup_dateID ]
+        wedding_proven_date_idx:
+            columns: [ proven_dateID ]
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            column: ID
+            generator:
+                strategy: IDENTITY
+    fields:
+        weddingOrder:
+            type: integer
+            nullable: false
+            options:
+                default: '1'
+            column: wedding_order
+        husbandId:
+            type: integer
+            nullable: true
+            options:
+                unsigned: false
+                default: '0'
+            column: husband_ID
+        wifeId:
+            type: integer
+            nullable: true
+            options:
+                unsigned: false
+                default: '0'
+            column: wife_ID
+        weddingDate:
+            type: date_reference
+            column: wedding_dateID
+            nullable: true
+        weddingLocationid:
+            type: integer
+            nullable: true
+            options:
+                unsigned: false
+            column: wedding_locationID
+        weddingTerritoryid:
+            type: integer
+            nullable: true
+            options:
+                unsigned: false
+            column: wedding_territoryID
+        bannsDate:
+            type: date_reference
+            column: banns_dateID
+            nullable: true
+            options:
+                comment: '== Aufgebot'
+        breakupReason:
+            type: text
+            nullable: true
+            length: 65535
+            options:
+                fixed: false
+                comment: '== Auflösung'
+            column: breakup_reason
+        breakupDate:
+            type: date_reference
+            column: breakup_dateID
+            nullable: true
+            options:
+                comment: '== gelöst'
+        marriageComment:
+            type: text
+            nullable: true
+            length: 65535
+            options:
+                fixed: false
+            column: marriage_comment
+        beforeAfter:
+            type: text
+            nullable: true
+            length: 65535
+            options:
+                fixed: false
+            column: before_after
+        provenDate:
+            type: date_reference
+            column: proven_dateID
+            nullable: true
+        comment:
+            type: text
+            nullable: true
+            length: 65535
+            options:
+                fixed: false
+            column: wedding_comment
+    manyToOne:     
+        weddingTerritory:
+            targetEntity: Territory
+            fetch: EAGER
+            joinColumn:
+                name: wedding_territoryID
+                referencedColumnName: ID
+                nullable: true
+            cascade: ["persist"]
+        weddingLocation:
+            targetEntity: Location
+            fetch: EAGER
+            joinColumn:
+                name: wedding_locationID
+                referencedColumnName: ID
+                nullable: true     
+            cascade: ["persist"]
+    lifecycleCallbacks: {  }

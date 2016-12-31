@@ -1,0 +1,150 @@
+{% extends "AmburgerBundle:DataCorrection:base.html.twig" %}
+{% block body %}
+    <div id="possible-relations" class="collapsible center">
+        <h2 class="center">Mögliche Verwandtschaftsbeziehungen</h2>
+        <p class="description-text">Markieren Sie die korrekten Verwandtschaftsbeziehungen und vergessen Sie nicht zu Speichern!</p>
+        <div class="possible-relations-container container">
+            
+        </div>
+    </div>
+    
+    <div id="existing-relations" class="existing-container" class="collapsible">
+        <h2 class="center">Übernommene Verwandtschaftsbeziehungen</h2>
+        <div class="existing-relations-container container">
+            
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="large-3 columns">
+        </div>
+        <div class="large-6 columns large-centered center">
+            <a href="../end/"<button id="next-button" class="round button" type="submit">Speichern</button></a>
+        </div>
+        <div class="large-3 columns">
+        </div>
+    </div>
+    
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {# Start #}
+    <script src="{{asset('bundles/amburger/js/src/datacorrection/relatives/RelativesCorrection.js')}}"></script>
+
+    {# Models #}
+
+    {# Views #}
+    <script src="{{ asset('bundles/amburger/js/src/datacorrection/relatives/RelativesView.js') }}"></script>
+
+    {# Manager #}
+
+     {# Controllers #}
+     <script src="{{ asset('bundles/amburger/js/src/datacorrection/relatives/AjaxLoader.js') }}"></script>
+     <script src="{{ asset('bundles/amburger/js/src/datacorrection/relatives/RelativesCorrectionController.js') }}"></script>
+
+
+
+     {# As last init the Start #}
+     <script>
+        $(document).ready(function(){
+          RelativesCorrection.init();
+        });
+     </script>
+
+{% endblock %}
+
+{% block templates %}
+    {% verbatim %}
+
+    <script type="text/template" id="directRelationTemplate">
+        <div class="row">
+            <input type="hidden" name="personID" value="<%= personId %>">
+            <input type="hidden" name="relativeID" value="<%= relativeId %>"> 
+            <input type="hidden" name="personGender" value="<%= personGender %>"> 
+            <input type="hidden" name="relativeGender" value="<%= relativeGender %>"> 
+            <input type="hidden" name="relationType" value="<%= relation %>"> 
+            <div class="large-4 columns box">
+                 <%= personData %>
+            </div>
+            <div class="large-1 columns">
+            </div>
+            <div class="large-2 columns box center relation-disabled">
+                <div class="relation-box">
+                    <select name="selectRelationType" disabled>
+                        <option name="" <%= relation == '' ?  'selected' : '' %>></option>
+                        <option name="parent" <%= relation == 'parent' ?  'selected' : '' %>>ist Kind von</option>
+                        <option name="child" <%= relation == 'child' ?  'selected' : '' %>>ist Elterteil von</option>
+                        <option name="sibling" <%= relation == 'sibling' ?  'selected' : '' %>>ist Geschwister von</option>
+                        <option name="marriagePartner"<%= relation == 'marriagePartner' ?  'selected' : '' %>>ist verheiratet mit</option>
+                    </select>
+                    <i class="fa fa-pencil edit-relation clickable" aria-hidden="true"></i>
+                </div>
+                <div class="relation-controls">                
+                    <i class="fa fa-times-circle fa-3x icon-red left remove-relation clickable" aria-hidden="true"></i>
+                    <i class="fa fa-check-circle fa-3x icon-green right accept-relation clickable" aria-hidden="true"></i>
+                </div>
+        
+                <% if(relation_comment) { %>
+                    <span class="comment">
+                            <%= relation_comment %>
+                    </span>
+                <% } %>
+            </div>
+            <div class="large-1 columns">
+            </div>
+            <div class="large-4 columns box">
+                <%= relativeData %>
+            </div>
+        </div>
+    </script>
+ 
+    <script type="text/template" id="possibleRelationTemplate">
+        <div class="row">
+            <input type="hidden" name="personID" value="<%= personId %>">
+            <input type="hidden" name="relativeID" value="<%= relativeId %>"> 
+            <input type="hidden" name="personGender" value="<%= personGender %>"> 
+            <input type="hidden" name="relativeGender" value="<%= relativeGender %>"> 
+            <input type="hidden" name="relationType" value="<%= relation_suggestion %>"> 
+            <div class="large-4 columns box">
+                <%= personData %>
+            </div>
+            <div class="large-1 columns">
+            </div>
+            <div class="large-2 columns box center">
+                <select name="selectRelationType">
+                    <option name="" <%= relation_suggestion == '' ?  'selected' : '' %>></option>
+                    <option name="parent" <%= relation_suggestion == 'parent' ?  'selected' : '' %>>ist Kind von</option>
+                    <option name="child" <%= relation_suggestion == 'child' ?  'selected' : '' %>>ist Elterteil von</option>
+                    <option name="sibling" <%= relation_suggestion == 'sibling' ?  'selected' : '' %>>ist Geschwister von</option>
+                    <option name="marriagePartner" <%= relation_suggestion == 'marriagePartner' ?  'selected' : '' %>>ist verheiratet mit</option>
+                </select>
+        
+                <i class="fa fa-times-circle fa-3x icon-red left remove-relation clickable" aria-hidden="true"></i>
+                <i class="fa fa-check-circle fa-3x icon-green right accept-relation clickable" aria-hidden="true"></i>
+            </div>
+            <div class="large-1 columns">
+            </div>
+            <div class="large-4 columns box">
+                <%= relativeData %>
+            </div>
+        </div>
+    </script>
+        
+    <script type="text/template" id="personDataTemplate">
+        <% if(id) { %>ID: <span><%= id %></span></br> <% } %>
+        <% if(first_name) { %>Vorname: <span><%= first_name %></span></br> <% } %>
+        <% if(last_name) { %>Nachname: <span><%= last_name %></span></br><% } %>
+        <% if(patronym) { %>Vatersname: <span><%= patronym %></span></br><% } %>
+        <% if(gender) { %>Geschlecht: <span><%= gender %></span></br><% } %>
+        <% if(birth_date) { %>Geboren: <span><%= birth_date %></span></br><% } %>
+        <% if(baptism_date) { %>Getauft: <span><%= baptism_date %></span></br><% } %>
+        <% if(death_date) { %>Gestorben: <span><%= death_date %></span></br><% } %>
+        <% if(funeral_date) { %>Beerdigt: <span><%= funeral_date %></span></br><% } %>
+        <% if(job) { %>Job: <span><%= job %></span></br><% } %>
+        <% if(job_class) { %>Jobklasse: <span><%= job_class %></span></br><% } %>
+        <% if(nation) { %>Nation: <span><%= nation %></span></br><% } %>
+        <% if(educations) { %>Ausbildung(en): <span><%= educations %></span></br><% } %>
+    </script>
+    {% endverbatim %}
+{% endblock %}

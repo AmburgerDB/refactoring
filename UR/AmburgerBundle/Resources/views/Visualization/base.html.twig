@@ -1,0 +1,27 @@
+{% extends "AmburgerBundle:Base:base.html.twig" %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{asset('bundles/amburger/css/visualization.css')}}" />
+{% endblock %}
+
+{% block fullbody %}
+    <header id="header" class="center">
+        {% block header %}
+             <h1>Die Erik-Amburger-Datenbank</h1>
+             <p class="header-subtitle">Ausländer im vorrevolutionären Russland</p>
+        {% endblock %}
+    </header>
+          
+    <div id="body">
+       {% block body %}
+
+       {% endblock %}
+    </div>
+
+    <div class="footer-placeholder"></div>
+    <footer id="footer" class="center">
+        {% block footer %}
+            <h3>&copy; 2016 IOS Regensburg</h3>
+        {% endblock %}
+    </footer>
+{% endblock %}

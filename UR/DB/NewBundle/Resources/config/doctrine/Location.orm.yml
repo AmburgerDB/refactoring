@@ -1,0 +1,42 @@
+UR\DB\NewBundle\Entity\Location:
+    type: entity
+    table: location
+    options:
+        collate: utf8_general_ci
+        charset: utf8
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            column: ID
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+            nullable: true
+            length: 200
+            options:
+                fixed: false
+            column: location_name
+        comment:
+            type: text
+            nullable: true
+            length: 65535
+            options:
+                fixed: false
+            column: location_comment
+        latitude:
+            type: decimal
+            nullable: true
+            precision: 18
+            scale: 6
+        longitude:
+            type: decimal
+            nullable: true
+            precision: 18
+            scale: 6
+    lifecycleCallbacks: {  }

@@ -1,0 +1,67 @@
+UR\DB\NewBundle\Entity\Religion:
+    type: entity
+    table: religion
+    options:
+        collate: utf8_general_ci
+        charset: utf8
+    indexes:
+        # the name of the index
+        name_idx:
+            # Columns is an array, specify multiple columns for 
+            # a compound index
+            columns: [ religion_name ]
+        religion_from_date_idx:
+            columns: [ from_dateID ]
+        religion_proven_date_idx:
+            columns: [ proven_dateID ]
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            column: ID
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+            nullable: true
+            length: 100
+            options:
+                fixed: false
+            column: religion_name
+        comment:
+            type: text
+            nullable: true
+            length: 65535
+            options:
+                fixed: false
+            column: religion_comment
+        religionOrder:
+            type: integer
+            nullable: false
+            options:
+                default: '1'
+            column: religion_order
+        fromDate:
+            type: date_reference
+            column: from_dateID
+            nullable: true
+        provenDate:
+            type: date_reference
+            column: proven_dateID
+            nullable: true
+        changeOfReligion:
+            type: text
+            nullable: true
+            length: 65535
+            options:
+                fixed: false
+            column: change_of_religion
+    manyToOne:
+        person:
+            targetEntity: BasePerson
+            cascade: ["persist", "merge"]
+    lifecycleCallbacks: {  }

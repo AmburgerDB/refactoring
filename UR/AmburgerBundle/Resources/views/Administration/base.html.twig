@@ -1,0 +1,58 @@
+{% extends "AmburgerBundle:Base:base.html.twig" %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{asset('bundles/amburger/css/admin.css')}}" />
+{% endblock %}
+
+{% block fullbody %}
+    <header>
+        <div id="header" class="center">
+            {% block header %}
+                <h1>Korrekturoberfläche der Erik-Amburger-Datenbank</h1>
+            {% endblock %}
+        </div>
+        {% block secondNavigation %}
+            {% if logged_in %}
+                <div class="row" id="user-controls">
+                     <div class="large-1 columns center">
+                    </div>
+                     <div class="large-10 columns center">
+
+                    </div>
+                     <div class="large-1 columns center">
+                        <i id="logout" class="fa fa-sign-out fa-2x" aria-hidden="true"></i>
+                    </div>
+                </div>
+            {% endif %}
+        {% endblock %}
+        {% block navigation %}
+
+        {% endblock %}
+    </header>
+
+    <div id="body">
+        {% block body %}
+
+        {% endblock %}
+    </div>
+
+    <div class="footer-placeholder"></div>
+    <footer id="footer">
+        {% block footer %}
+            <h3>&copy; 2016 IOS Regensburg</h3>
+        {% endblock %}
+    </footer>
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{asset('bundles/amburger/js/src/util/User.js')}}"></script>
+
+
+    {# As last init the Start #}
+    <script>
+        User.init();
+    </script>
+
+{% endblock %}

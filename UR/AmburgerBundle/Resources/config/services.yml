@@ -1,0 +1,55 @@
+services:
+#    amburger.example:
+#        class: UR\AmburgerBundle\Example
+#        arguments: [@service_id, "plain_value", %parameter%]
+    migration_process.service:
+        class: UR\AmburgerBundle\Util\MigrateProcess
+        arguments: 
+           container: "@service_container"
+    migration_util.service:
+        class: UR\AmburgerBundle\Util\MigrationUtil
+        arguments: 
+           container: "@service_container"
+    person_saver.service:
+        class: UR\AmburgerBundle\Util\PersonSaver
+        arguments: 
+           container: "@service_container"
+    correction_session.service:
+        class: UR\AmburgerBundle\Util\CorrectionSessionUtil
+        arguments: 
+           container: "@service_container"
+    person_data_creator.service:
+        class: UR\AmburgerBundle\Util\PersonDataCreator
+        arguments: 
+           container: "@service_container"
+    possible_relatives_finder.service:
+        class: UR\AmburgerBundle\Util\PossibleRelativesFinder
+        arguments: 
+           container: "@service_container"         
+    possible_duplicates_finder.service:
+        class: UR\AmburgerBundle\Util\PossibleDuplicatesFinder
+        arguments: 
+           container: "@service_container"                    
+    relationship_loader.service:
+        class: UR\AmburgerBundle\Util\RelationshipLoader
+        arguments: 
+           container: "@service_container"
+    correction_change_tracker:
+        class: UR\AmburgerBundle\Util\CorrectionChangeTracker
+        arguments: 
+           container: "@service_container"  
+    search.util:
+        class: UR\AmburgerBundle\Util\Search\SearchUtil
+        arguments: 
+           container: "@service_container"             
+    correction_session_validation_listener:
+        class:  UR\AmburgerBundle\EventListener\SessionListener
+        arguments: 
+            container: "@service_container"
+        tags:
+            - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
+            
+    origin_of_data_tracker:
+        class: UR\AmburgerBundle\Util\OriginOfDataTracker
+        arguments: 
+           container: "@service_container"  

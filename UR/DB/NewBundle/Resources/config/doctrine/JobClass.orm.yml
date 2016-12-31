@@ -1,0 +1,31 @@
+UR\DB\NewBundle\Entity\JobClass:
+    type: entity
+    table: job_class
+    options:
+        collate: utf8_general_ci
+        charset: utf8
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            column: ID
+            generator:
+                strategy: IDENTITY
+    fields:
+        label:
+            type: string
+            nullable: false
+            length: 200
+            options:
+                fixed: false
+        comment:
+            type: text
+            nullable: true
+            length: 65535
+            options:
+                fixed: false
+            column: job_class_comment
+    lifecycleCallbacks: {  }

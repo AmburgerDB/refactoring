@@ -1,0 +1,71 @@
+{% extends "AmburgerBundle:Administration:base.html.twig" %}
+ {% block secondNavigation %}
+            {% if logged_in %}
+                <div class="row" id="user-controls">
+                     <div class="large-1 columns center">
+                          <i id="back" class="fa fa-arrow-left fa-2x" aria-hidden="true"></i>
+                    </div>
+                     <div class="large-10 columns center">
+
+                    </div>
+                     <div class="large-1 columns center">
+                        <i id="logout" class="fa fa-sign-out fa-2x" aria-hidden="true"></i>
+                    </div>
+                </div>
+            {% endif %}
+        {% endblock %}
+
+{% block body %}
+    <div class="row ">
+            <div class="large-2 columns large-offset-2">
+                 
+            </div>
+            <div class="large-6 columns">
+                {% if passwords_empty %} <span class="error"> Das eingegebene Passwort darf nicht leer sein. </span> {% endif %}
+                {% if passwords_do_not_match %} <span class="error"> Die eingebenen Passwörter sind unterschiedlich. </span> {% endif %}
+                {% if password_updated %} <span class="success"> Das Passwort wurde aktualisiert. </span> {% endif %}
+            </div>
+            <div class="large-2 columns">
+
+            </div>
+        </div>
+    <div class="row">
+        <form method="POST" class="form-signin">
+              <input type="hidden" name="_target_path" value="user" />
+              <h2 class="form-signin-heading center">Passwort ändern</h2>
+                <div class="row ">
+                    <div class="large-2 columns large-offset-2">
+                          <label for="inputPassword">Neues Passwort:</label>
+                    </div>
+                    <div class="large-6 columns">
+                          <input name="password" type="password" id="inputPassword" class="form-control" placeholder="Passwort" required>
+                    </div>
+                    <div class="large-2 columns">
+                          
+                    </div>
+                </div>
+                <div class="row ">
+                    <div class="large-2 columns large-offset-2">
+                        <label for="inputPasswordRepetition">Passwort wiederholen:</label>
+                    </div>
+                    <div class="large-6 columns">
+                          <input name="password-repetition" type="password" id="inputPassword" class="form-control" placeholder="Passwort" required>
+                    </div>
+                    <div class="large-2 columns">
+                          
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="large-5 columns">
+                          
+                    </div>
+                      <div class="large-2 columns">
+                          <button id="login-button" class="round button" type="submit">Ändern</button>
+                    </div>
+                    <div class="large-5 columns">
+                          
+                    </div>
+                </div>
+            </form>
+    </div>
+{% endblock %}

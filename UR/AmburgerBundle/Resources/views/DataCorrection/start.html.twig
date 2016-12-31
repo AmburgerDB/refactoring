@@ -1,0 +1,89 @@
+{% extends "AmburgerBundle:DataCorrection:base.html.twig" %}
+{% block body %}
+    <div class="row">
+        <div class="large-8 columns large-centered center">
+            <h3>Diese Oberfläche wird für die Korrektur der einzelnen Datensätze der Erik-Amburger-Datenbank verwendet.</h3>
+        </div>
+    </div>
+    <div class="row downloads-and-settings">
+        <div class="large-3 columns">
+        </div>
+        <div class="large-2 columns">
+            <a target="_blank" href="{{asset('bundles/amburger/downloads/quellenverzeichnis.pdf')}}"><button>Quellenverzeichnis</button></a>
+        </div>
+        <div class="large-2 columns">
+            <a target="_blank" href="{{asset('bundles/amburger/downloads/abkuerzungen_und_erklaerungen.pdf')}}"><button>Abkürzungen und Erklärungen</button></a>
+        </div>
+        <div class="large-1 columns">
+        </div>
+         <div class="large-2 columns">
+            <i id="user-settings" class="fa fa-cog fa-5x" aria-hidden="true"></i> 
+        </div>
+        <div class="large-3 columns">
+        </div>
+    </div>
+    <div class="row">
+         <div class="large-4 columns">
+        </div>
+        <div class="large-4 columns center correction-start-container">
+                <div class="row">
+                    <button id="next-person-button" class="round button">Neuen zufälligen Datensatz korrigieren</button>
+                </div>
+                <br>
+                <div class="row">
+                    <p class="description-text">Bestimmten Datensatz für die Korrektur auswählen</p>
+                    Bitte geben Sie die ID oder OID des gewünschten Datensatzes ein:
+                </div>
+                <br>
+                <div class="row">
+                    <div class="large-2 columns">
+                    </div>
+                    <div class="large-4 columns">
+                        <input name="selected-id" type="text" id="selected-id" class="form-control" placeholder="z.B. 1234">
+                    </div>
+                     <div id="id-type-container" class="large-4 columns">
+                        <input type="radio" name="idType" value="id" id="radioID" checked><label for="radioID">ID</label>
+                        <input type="radio" name="idType" value="oid" id="radioOID"><label for="radioOID">OID</label>
+                    </div>
+                    <div class="large-2 columns">
+                    </div>
+                </div>
+            <div class="row">
+                <button id="selected-person-button" class="round button">Korrektur starten</button>
+            </div>
+        </div>
+        
+        <div class="large-4 columns">
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {# Start #}
+    <script src="{{asset('bundles/amburger/js/src/datacorrection/start/Start.js')}}"></script>
+
+    {# Models #}
+
+
+     {# Views #}
+     <script src="{{ asset('bundles/amburger/js/src/datacorrection/start/StartView.js') }}"></script>
+
+
+     {# Manager #}
+
+
+     {# Controllers #}
+     <script src="{{ asset('bundles/amburger/js/src/datacorrection/start/AjaxLoader.js') }}"></script>
+     <script src="{{ asset('bundles/amburger/js/src/datacorrection/start/StartController.js') }}"></script>
+
+
+
+     {# As last init the Start #}
+     <script>
+        $(document).ready(function(){
+          Start.init();
+        });
+     </script>
+
+{% endblock %}

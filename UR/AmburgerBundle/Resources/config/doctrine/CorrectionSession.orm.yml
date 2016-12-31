@@ -1,0 +1,37 @@
+UR\AmburgerBundle\Entity\CorrectionSession:
+    type: entity
+    table: correction_session
+    indexes:
+        modified_idx:
+            columns: [ modified ]
+        activeUserId_idx:
+            columns: [ activeUserId ]
+    id:
+        personId:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            column: person_id
+            id: true
+    fields:
+        activeUserName:
+            type: string
+            nullable: false
+            comment: 'Currently active user name in session'
+        activeUserId:
+            type: string
+            nullable: false
+            comment: 'Currently active user id in session'
+        sessionIdentifier:
+            type: string
+            nullable: false
+            comment: 'Identifier for active session'
+        created:
+            type: datetime
+            nullable: false
+        modified:
+            type: datetime
+            nullable: false
+    lifecycleCallbacks:
+        preFlush: [updateCreatedAndModified]
