@@ -14,6 +14,20 @@ PersonCorrection.PersonCorrectionController = (function(){
     personDataLoaded = false,
     weddingLoaded = false,
     
+    listOfRowTypes = ["base-person-container", "birth-container", 
+            "baptism-container", "death-container", "educations-container", 
+            "honours-container","properties-container", "rank-container", 
+            "religion-container", "residence-container", "road-of-life-container", 
+            "status-container", "works-container", "wedding-container", "source-container"],
+        
+   listOfElementContainer = ["gender-element-container", "job-element-container", "job-class-element-container", 
+            "nation-element-container", "location-element-container", "territory-element-container", "country-element-container",
+            "date-element-container", "origin-location-element-container", "origin-territory-element-container", "origin-country-element-container",
+            "birth-date-element-container", "proven-date-element-container","death-date-element-container", "funeral-date-element-container",
+            "funeral-location-element-container", "graduation-location-element-container","from-date-element-container","to-date-element-container",
+            "graduation-date-element-container","wedding-territory-element-container", "wedding-location-element-container", "wedding-date-element-container",
+            "banns-date-element-container", "breakup-date-element-container"],
+    
     /* 
         Initialises the object and sets default values.
     */
@@ -75,13 +89,102 @@ PersonCorrection.PersonCorrectionController = (function(){
         }
     },
     
+    alignElementContainers = function(){
+        console.log("Aligning element containers");
+        
+        for(var rowTypePos = 0; rowTypePos < listOfRowTypes.length; rowTypePos++){
+            var rowType = listOfRowTypes[rowTypePos];
+            
+            var elements = $("."+rowType);
+            
+            console.log("Found ", elements.length, " for rowtype: ",rowType);
+            
+            //1. check amount of rows in each element.
+            //2. Find largest element containers for each row
+            //3. set all to the same size
+
+            var maximumAmountOfRows = 0;
+            //find maximumAmountOfRows
+            for(var j = 0; j < elements.length; j++){
+                var amountOfRows = $(elements[j]).find('.row').length;
+                console.log("Amount of Rows: ", amountOfRows);
+                if(amountOfRows > maximumAmountOfRows){
+                    console.log("More rows than ", maximumAmountOfRows);
+                    maximumAmountOfRows = amountOfRows;
+                }
+            }
+            
+            if(maximumAmountOfRows == 0){
+                console.log("No entries for  ", rowType);
+                continue; 
+            }
+            
+            
+            for(var rowPos = 0; rowPos < maximumAmountOfRows; rowPos++){
+                
+                for(var elementContainerPos = 0; 
+                    elementContainerPos < listOfElementContainer.length; 
+                    elementContainerPos++){
+                        
+                    var elementContainer = listOfElementContainer[elementContainerPos];
+                    
+                    console.log("Searching for elementContainer: ", elementContainer);
+                    
+                    //check if elementContainer is contained in row
+                    
+                    var containerElements = $("."+rowType + " .row ."+elementContainer);
+                    
+                    if(containerElements.length == 0){
+                        console.log("This rowType does not contain ", elementContainer);
+                        continue;
+                    }
+                    
+                    console.log("Found ", containerElements.length, " for rowtype: ",rowType);
+                    
+                    var largestElementContainer = 0;
+                    
+                    for(var j = 0; j < elements.length; j++){
+                       var rows = $(elements[j]).find('.row');
+
+                       if(rowPos < rows.length){
+                           //only gets run if the row exists
+                           
+                            var currentRow = rows[rowPos];
+                            var containerInCurrentRow = $(currentRow).find("."+elementContainer);
+                           
+                            var height = $(containerInCurrentRow).height();
+                            console.log("Height element container: ", height);
+                            if(height > largestElementContainer){
+                                console.log("Bigger than largest element container: ", largestElementContainer);
+                                largestElementContainer = height;
+                            }
+                       }
+                    }
+                    
+                    console.log("Setting height of elementContainers: ", elementContainer, " to ", largestElementContainer);
+                    
+                    //set all to the same height
+                    for(var j = 0; j < elements.length; j++){
+                        var rows = $(elements[j]).find('.row');
+
+                       if(rowPos < rows.length){
+                           //only gets run if the row exists
+                           
+                            var currentRow = rows[rowPos];
+                            var containerInCurrentRow = $(currentRow).find("."+elementContainer);
+                           
+                            $(containerInCurrentRow).height(largestElementContainer);
+                       }
+                    }
+                }
+
+            }
+            
+        }
+    },
+    
     alignRowsOfTheSameType = function(){
         console.log("Aligning rows of the same type");
-        var listOfRowTypes = ["base-person-container", "birth-container", 
-            "baptism-container", "death-container", "educations-container", 
-            "honours-container","properties-container", "rank-container", 
-            "religion-container", "residence-container", "road-of-life-container", 
-            "status-container", "works-container", "wedding-container", "source-container"];
         
         for(var i = 0; i < listOfRowTypes.length; i++){
             var rowType = listOfRowTypes[i];
@@ -148,6 +251,7 @@ PersonCorrection.PersonCorrectionController = (function(){
         if(weddingLoaded && personDataLoaded){
             console.log("Loading finished");
             //removeUnusedRows();
+            alignElementContainers();
             alignRowsOfTheSameType();
             collapse();
             personCorrectionView.hideLoader();
